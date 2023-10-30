@@ -50,3 +50,55 @@ exports.getAllBooks = async(req,res)=>{
         })
     }
 }
+
+exports.getBookById = async(req,res)=>{
+    try {
+         const {id} = req.params;
+         const data = await Book.findOne({_id:id});
+         if(!data){
+            return res.send({
+                status:true,
+                statusCode:200,
+                msg:"No Books Found!"
+            })
+         }
+         return res.send({
+            status:true,
+            statusCode:200,
+            data:data
+         })
+    } catch (error) {
+        return res.send({
+            status:false,
+            statusCode:400,
+            msg:"Something Went Wrong"
+
+        })
+    }
+}
+
+exports.bookUpdate = async(req,res)=>{
+    try {
+        const {id} = req.params; 
+        const data = await Book.findByIdAndUpdate({_id:id},req.body);
+        if(!data){
+            return res.send({
+                status:true,
+                statusCode:200,
+                msg:"No Books Found!"
+            })
+        }
+        return res.send({
+            status:true,
+            statusCode:200,
+            msg:"Book Updated Sucessfully"
+        })
+    } catch (error) {
+        return res.send({
+            status:false,
+            statusCode:400,
+            msg:"Something Went Wrong"
+
+        })
+    }
+}
