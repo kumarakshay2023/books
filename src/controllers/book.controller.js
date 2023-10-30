@@ -59,7 +59,7 @@ exports.getBookById = async(req,res)=>{
             return res.send({
                 status:true,
                 statusCode:200,
-                msg:"No Books Found!"
+                msg:"No Book Found!"
             })
          }
          return res.send({
@@ -85,13 +85,40 @@ exports.bookUpdate = async(req,res)=>{
             return res.send({
                 status:true,
                 statusCode:200,
-                msg:"No Books Found!"
+                msg:"No Book Found!"
             })
         }
         return res.send({
             status:true,
             statusCode:200,
             msg:"Book Updated Sucessfully"
+        })
+    } catch (error) {
+        return res.send({
+            status:false,
+            statusCode:400,
+            msg:"Something Went Wrong"
+
+        })
+    }
+}
+
+exports.deleteBook = async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const data = await Book.findOne({_id:id});
+        if(!data){
+            return res.send({
+                status:true,
+                statusCode:200,
+                msg:"No Book Found!"
+            })
+        }
+        await Book.deleteOne({_id:id});
+        return res.send({
+            status:true,
+            statusCode:200,
+            msg:"Book Deleted Sucessfully"
         })
     } catch (error) {
         return res.send({
